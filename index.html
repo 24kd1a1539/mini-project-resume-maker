@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartResume Builder — Customizable Professional Resume Creator</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="navy" data-font="sans">
+  <!-- Header Bar -->
+  <header class="app-header no-print">
+    <div class="header-container">
+      <div class="brand">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">SmartResume Builder</h1>
+          <p class="brand-tagline">Fully Customizable Professional Resume Builder & Keyword Tailoring</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="btn-blank-form" class="btn btn-outline" title="Start with a blank clean resume form">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+          Blank Resume
+        </button>
+        <button type="button" id="btn-clear-form" class="btn btn-danger-nav" title="Clear all resume information">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Edit Guidance Banner -->
+  <div class="edit-banner no-print">
+    <div class="banner-inner">
+      <div class="banner-info">
+        <span class="badge-live">LIVE BUILDER</span>
+        <span>Every change you make in the form updates the preview <strong>instantly in real time</strong>. You can also toggle <strong>"Direct On-Resume Edit"</strong> to click and type directly on the document!</span>
+      </div>
+      <div class="save-status" id="save-status">
+        <span class="save-dot"></span>
+        <span id="save-text">Saved locally</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Container -->
+  <main class="app-layout">
+    <!-- Left Column: Input Form Panel -->
+    <section class="form-panel no-print" id="form-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Resume Editor</h2>
+          <p class="panel-subtitle">Edit the fields below to customize your resume in real time</p>
+        </div>
+        <span class="required-note"><span class="req">*</span> required</span>
+      </div>
+
+      <form id="resume-form" novalidate>
+        <!-- Card 1: Personal Information (FR-01) -->
+        <fieldset class="form-card">
+          <legend class="card-title">
+            <span class="step-num">1</span> Personal Information
+          </legend>
+
+          <div class="form-grid">
+            <div class="form-group col-span-2">
+              <label for="fullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="fullName" name="fullName" placeholder="e.g. Alex Johnson" required>
+              <div class="error-msg" id="err-fullName">Please enter your full name.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <input type="email" id="email" name="email" placeholder="e.g. alex.johnson@example.com" required>
+              <div class="error-msg" id="err-email">Please enter a valid email address.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="e.g. +1 (555) 019-2834">
+            </div>
+
+            <div class="form-group col-span-2">
+              <label for="location">Location (City, State / Country)</label>
+              <input type="text" id="location" name="location" placeholder="e.g. San Francisco, CA">
+            </div>
+
+            <div class="form-group">
+              <label for="linkedin">LinkedIn Profile URL</label>
+              <input type="url" id="linkedin" name="linkedin" placeholder="e.g. linkedin.com/in/alexjohnson">
+            </div>
+
+            <div class="form-group">
+              <label for="github">GitHub Profile URL</label>
+              <input type="url" id="github" name="github" placeholder="e.g. github.com/alexjohnson">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Card 2: Job Role & Job Description (FR-02 & FR-03) -->
+        <fieldset class="form-card">
+          <legend class="card-title">
+            <span class="step-num">2</span> Target Job Role & Description
+          </legend>
+
+          <div class="form-group">
+            <label for="jobRole">Target Job Role <span class="req">*</span></label>
+            <select id="jobRole" name="jobRole" required>
+              <option value="" disabled selected>Select or choose a target role...</option>
+              <option value="Software Developer">Software Developer</option>
+              <option value="Frontend Developer">Frontend Developer</option>
+              <option value="Python Developer">Python Developer</option>
+              <option value="Data Analyst">Data Analyst</option>
+              <option value="AI/ML Engineer">AI/ML Engineer</option>
+              <option value="Web Developer">Web Developer</option>
+            </select>
+            <div class="error-msg" id="err-jobRole">Please select a target job role.</div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-with-action">
+              <label for="jobDescription">
+                Target Job Description
+                <span class="badge-tag">Rule-based matcher</span>
+              </label>
+            </div>
+            <textarea id="jobDescription" name="jobDescription" rows="4" placeholder="Paste target job requirements here. The builder will automatically highlight matching skills in your resume..."></textarea>
+            <small class="field-hint">Compares your technical skills with the keywords in this job posting instantly.</small>
+          </div>
+        </fieldset>
+
+        <!-- Card 3: Professional Summary (FR-09) -->
+        <fieldset class="form-card">
+          <div class="card-title-row">
+            <legend class="card-title">
+              <span class="step-num">3</span> Professional Summary
+            </legend>
+            <label class="toggle-checkbox-label">
+              <input type="checkbox" id="chk-show-summary" checked> Show in resume
+            </label>
+          </div>
+          <div class="form-group" id="group-summary">
+            <div class="label-with-action">
+              <label for="summary">Summary Text</label>
+              <button type="button" id="btn-suggest-summary" class="btn-text-link">Generate Template Summary</button>
+            </div>
+            <textarea id="summary" name="summary" rows="3" placeholder="A concise 2-3 sentence overview of your career focus, technical background, and value proposition..."></textarea>
+          </div>
+        </fieldset>
+
+        <!-- Card 4: Technical Skills (FR-05 & FR-10) -->
+        <fieldset class="form-card">
+          <legend class="card-title">
+            <span class="step-num">4</span> Technical Skills <span class="req">*</span>
+          </legend>
+          <div class="form-group">
+            <label for="skills">Skills (Comma-separated)</label>
+            <input type="text" id="skills" name="skills" placeholder="e.g. JavaScript, React, HTML5, CSS3, Git, Node.js, REST API" required>
+            <div class="error-msg" id="err-skills">Please provide at least one technical skill.</div>
+            <small class="field-hint">Type skills separated by commas. As you type, badges below update live.</small>
+          </div>
+          <!-- Real-time Skills Chips Preview -->
+          <div class="skills-chips-wrapper" id="skills-chips-preview"></div>
+        </fieldset>
+
+        <!-- Card 5: Education Management (FR-04) -->
+        <fieldset class="form-card">
+          <div class="card-title-row">
+            <legend class="card-title">
+              <span class="step-num">5</span> Education <span class="req">*</span>
+            </legend>
+            <button type="button" id="btn-add-education" class="btn-sm btn-outline">+ Add Education</button>
+          </div>
+          <div id="education-container" class="dynamic-entries">
+            <!-- Dynamic education entry 1 -->
+            <div class="dynamic-card education-item" data-index="0">
+              <div class="form-grid">
+                <div class="form-group col-span-2">
+                  <label>Degree or Qualification <span class="req">*</span></label>
+                  <input type="text" class="edu-degree" placeholder="e.g. B.S. in Computer Science" required>
+                </div>
+                <div class="form-group">
+                  <label>College or University <span class="req">*</span></label>
+                  <input type="text" class="edu-school" placeholder="e.g. State University" required>
+                </div>
+                <div class="form-group">
+                  <label>Graduation Year</label>
+                  <input type="text" class="edu-year" placeholder="e.g. 2024">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-msg" id="err-education">Please provide degree and college/university.</div>
+        </fieldset>
+
+        <!-- Card 6: Project Information (FR-06) -->
+        <fieldset class="form-card">
+          <div class="card-title-row">
+            <legend class="card-title">
+              <span class="step-num">6</span> Projects <span class="req">*</span>
+            </legend>
+            <button type="button" id="btn-add-project" class="btn-sm btn-outline">+ Add Project</button>
+          </div>
+          <div id="projects-container" class="dynamic-entries">
+            <!-- Dynamic project entry 1 -->
+            <div class="dynamic-card project-item" data-index="0">
+              <div class="form-group">
+                <label>Project Title <span class="req">*</span></label>
+                <input type="text" class="project-title" placeholder="e.g. E-Commerce Web Application" required>
+              </div>
+              <div class="form-group">
+                <label>Key Technologies / Tools</label>
+                <input type="text" class="project-tech" placeholder="e.g. React, Node.js, Express, MongoDB">
+              </div>
+              <div class="form-group">
+                <label>Project Details / Highlights (One point per line) <span class="req">*</span></label>
+                <textarea class="project-desc" rows="3" placeholder="• Developed responsive frontend using modern React and CSS modules&#10;• Implemented secure authentication and payment gateway integration" required></textarea>
+                <small class="field-hint">Press Enter for each new bullet point.</small>
+              </div>
+            </div>
+          </div>
+          <div class="error-msg" id="err-projects">Please provide at least one project with title and details.</div>
+        </fieldset>
+
+        <!-- Card 7: Work Experience (FR-07 - Optional) -->
+        <fieldset class="form-card">
+          <div class="card-title-row">
+            <legend class="card-title">
+              <span class="step-num">7</span> Work Experience <span class="opt-label">(Optional)</span>
+            </legend>
+            <div class="card-actions-inline">
+              <label class="toggle-checkbox-label">
+                <input type="checkbox" id="chk-show-experience" checked> Show in resume
+              </label>
+              <button type="button" id="btn-add-experience" class="btn-sm btn-outline">+ Add Experience</button>
+            </div>
+          </div>
+          <div id="experience-container" class="dynamic-entries">
+            <!-- Dynamic experience entry 1 -->
+            <div class="dynamic-card experience-item" data-index="0">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Job Title / Role</label>
+                  <input type="text" class="exp-title" placeholder="e.g. Software Engineering Intern">
+                </div>
+                <div class="form-group">
+                  <label>Company / Organization</label>
+                  <input type="text" class="exp-company" placeholder="e.g. Acme Tech Solutions">
+                </div>
+                <div class="form-group col-span-2">
+                  <label>Duration & Location</label>
+                  <input type="text" class="exp-duration" placeholder="e.g. May 2023 – Aug 2023 | San Jose, CA">
+                </div>
+                <div class="form-group col-span-2">
+                  <label>Responsibilities & Achievements (One point per line)</label>
+                  <textarea class="exp-desc" rows="3" placeholder="• Built reusable UI components used by over 50,000 monthly active users&#10;• Collaborated with UX designers and backend engineers to integrate APIs"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <small class="field-hint">Leave blank or uncheck if you have no work or internship experience. Section will automatically be omitted.</small>
+        </fieldset>
+
+        <!-- Card 8: Certifications & Achievements (FR-08 - Optional) -->
+        <fieldset class="form-card">
+          <div class="card-title-row">
+            <legend class="card-title">
+              <span class="step-num">8</span> Certifications & Achievements <span class="opt-label">(Optional)</span>
+            </legend>
+            <label class="toggle-checkbox-label">
+              <input type="checkbox" id="chk-show-certifications" checked> Show in resume
+            </label>
+          </div>
+          <div class="form-group" id="group-certifications">
+            <label for="certifications">Certifications & Honors (One per line)</label>
+            <textarea id="certifications" name="certifications" rows="3" placeholder="e.g. AWS Certified Cloud Practitioner — 2023&#10;Dean's Honor List for Academic Excellence (2022, 2023)&#10;1st Place, Regional College Hackathon 2023"></textarea>
+            <small class="field-hint">Leave blank to omit this section from the resume.</small>
+          </div>
+        </fieldset>
+
+        <!-- Primary Form Action -->
+        <div class="form-actions-sticky">
+          <button type="submit" id="btn-generate" class="btn btn-primary btn-large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Apply & Validate All Changes
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Right Column: Keyword Match & Resume Preview Panel -->
+    <section class="preview-panel" id="preview-panel">
+      <!-- Preview Customizer & Actions Header -->
+      <div class="preview-toolbar no-print">
+        <div class="toolbar-left">
+          <!-- Direct In-Place Edit Mode Button -->
+          <button type="button" id="btn-toggle-direct-edit" class="btn-toggle-edit" title="Toggle Direct Edit: Click directly on the resume text to edit, delete, or rewrite any wording!">
+            <span class="edit-icon">✏️</span>
+            <span class="edit-text">Direct Edit on Resume: <strong id="edit-mode-state">ON</strong></span>
+          </button>
+        </div>
+
+        <div class="toolbar-center">
+          <!-- Theme Color Switcher -->
+          <div class="color-palette-selector" title="Choose resume accent color theme">
+            <span class="selector-label">Color:</span>
+            <button type="button" class="color-swatch active" data-color="navy" title="Classic Navy" style="background-color: #0f2b48;"></button>
+            <button type="button" class="color-swatch" data-color="royal" title="Royal Blue" style="background-color: #1d4ed8;"></button>
+            <button type="button" class="color-swatch" data-color="slate" title="Slate Dark" style="background-color: #334155;"></button>
+            <button type="button" class="color-swatch" data-color="emerald" title="Tech Emerald" style="background-color: #065f46;"></button>
+            <button type="button" class="color-swatch" data-color="burgundy" title="Executive Wine" style="background-color: #701a75;"></button>
+          </div>
+
+          <!-- Font Family Switcher -->
+          <div class="font-selector" title="Switch resume typography">
+            <button type="button" class="btn-font-toggle active" id="btn-font-sans" data-font="sans">Sans</button>
+            <button type="button" class="btn-font-toggle" id="btn-font-serif" data-font="serif">Serif</button>
+          </div>
+        </div>
+
+        <div class="toolbar-right">
+          <button type="button" id="btn-print-pdf" class="btn btn-primary" title="Print or Save your resume as an A4 PDF">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Download PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Direct Edit Instruction Pill (Visible when direct edit is active) -->
+      <div class="direct-edit-indicator no-print" id="direct-edit-hint">
+        <span class="hint-pulse"></span>
+        <span><strong>Direct Edit Active:</strong> You can click anywhere on the resume document below to directly edit text, modify headings, delete bullets, or reword details.</span>
+      </div>
+
+      <!-- Keyword Analysis & Role Recommendations (FR-03 & FR-10) -->
+      <div class="analysis-box no-print" id="analysis-box">
+        <div class="analysis-header">
+          <div class="analysis-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>Job Description Keyword Match & Skill Insights</span>
+          </div>
+          <span class="match-score-badge" id="match-score-badge">0 Matches</span>
+        </div>
+
+        <div class="analysis-content">
+          <!-- Matching skills section -->
+          <div class="analysis-row">
+            <div class="analysis-label">
+              <strong>Matching Skills in Resume:</strong>
+              <span id="match-summary-text">No job description entered yet.</span>
+            </div>
+            <div class="skills-badges-list" id="matched-skills-list">
+              <span class="placeholder-text">Enter your skills and paste a job description to see matching keywords.</span>
+            </div>
+          </div>
+
+          <!-- Suggested skills section based on predefined role -->
+          <div class="analysis-row">
+            <div class="analysis-label">
+              <strong>Recommended Skills for <span id="suggested-role-label">Selected Role</span>:</strong>
+              <small class="hint-small">(Click '+ Add' to include in your skills list if you possess them)</small>
+            </div>
+            <div class="skills-badges-list" id="suggested-skills-list">
+              <span class="placeholder-text">Select a target job role to view industry-standard skill suggestions.</span>
+            </div>
+          </div>
+
+          <div class="analysis-disclaimer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>Rule-based matching only. Skills are never added automatically to your resume.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Printable Resume Paper Container (FR-09, FR-11, FR-12) -->
+      <div class="resume-paper-wrapper">
+        <article class="resume-paper editable-document" id="resume-output" contenteditable="true" spellcheck="true">
+          <!-- Resume Header & Contact (FR-01, FR-02) -->
+          <header class="resume-header" contenteditable="true">
+            <h1 class="resume-name" id="out-fullName">Your Full Name</h1>
+            <div class="resume-target-role" id="out-jobRole">Target Job Role</div>
+            <div class="resume-contact-bar" id="out-contactBar">
+              <span class="contact-item" id="out-email">your.email@example.com</span>
+              <span class="contact-sep" id="sep-phone">•</span>
+              <span class="contact-item" id="out-phone">+1 (555) 000-0000</span>
+              <span class="contact-sep" id="sep-location">•</span>
+              <span class="contact-item" id="out-location">City, State</span>
+              <span class="contact-sep" id="sep-linkedin">•</span>
+              <span class="contact-item" id="out-linkedin">linkedin.com/in/profile</span>
+              <span class="contact-sep" id="sep-github">•</span>
+              <span class="contact-item" id="out-github">github.com/profile</span>
+            </div>
+          </header>
+
+          <!-- Section 1: Professional Summary (FR-09 item 3) -->
+          <section class="resume-section" id="sec-summary">
+            <h2 class="section-title">Professional Summary</h2>
+            <div class="section-divider"></div>
+            <p class="summary-text" id="out-summary">
+              A summary of your background, technical focus, and professional qualifications will appear here. Edit in the form or click directly here to customize this text.
+            </p>
+          </section>
+
+          <!-- Section 2: Technical Skills (FR-09 item 4) -->
+          <section class="resume-section" id="sec-skills">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="section-divider"></div>
+            <div class="resume-skills-grid" id="out-skills">
+              <span class="resume-skill-badge">Skill 1</span>
+              <span class="resume-skill-badge">Skill 2</span>
+              <span class="resume-skill-badge">Skill 3</span>
+            </div>
+          </section>
+
+          <!-- Section 3: Education (FR-09 item 5) -->
+          <section class="resume-section" id="sec-education">
+            <h2 class="section-title">Education</h2>
+            <div class="section-divider"></div>
+            <div class="resume-entries-list" id="out-education">
+              <div class="resume-entry">
+                <div class="entry-row-main">
+                  <span class="entry-title">University / Institution Name</span>
+                  <span class="entry-meta-right">Graduation Year</span>
+                </div>
+                <div class="entry-subtitle">Degree or Qualification Program</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 4: Projects (FR-09 item 6) -->
+          <section class="resume-section" id="sec-projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="section-divider"></div>
+            <div class="resume-entries-list" id="out-projects">
+              <div class="resume-entry">
+                <div class="entry-row-main">
+                  <span class="entry-title">Project Name</span>
+                  <span class="entry-tech-badge">Technologies Used</span>
+                </div>
+                <ul class="resume-bullets-list">
+                  <li>Key accomplishment or feature developed for this project.</li>
+                  <li>Measurable impact, scalability, or performance improvement.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 5: Work Experience (FR-09 item 7) -->
+          <section class="resume-section" id="sec-experience">
+            <h2 class="section-title">Work Experience</h2>
+            <div class="section-divider"></div>
+            <div class="resume-entries-list" id="out-experience">
+              <div class="resume-entry">
+                <div class="entry-row-main">
+                  <span class="entry-title">Job Title / Role</span>
+                  <span class="entry-meta-right">Duration & Location</span>
+                </div>
+                <div class="entry-subtitle">Company / Organization</div>
+                <ul class="resume-bullets-list">
+                  <li>Key responsibility or achievement in this role.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 6: Certifications & Achievements (FR-09 item 8) -->
+          <section class="resume-section" id="sec-certifications">
+            <h2 class="section-title">Certifications & Achievements</h2>
+            <div class="section-divider"></div>
+            <ul class="resume-bullets-list" id="out-certifications">
+              <li>Certification, honor, or academic achievement.</li>
+            </ul>
+          </section>
+        </article>
+      </div>
+
+      <!-- Quick Print Guide for Users -->
+      <div class="print-tips no-print">
+        <p><strong>Print Tip:</strong> In your browser print dialog, select Destination: <strong>Save as PDF</strong>, Margins: <strong>Default</strong>, and enable <strong>Background graphics</strong> to ensure all accent colors and lines appear perfectly.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
